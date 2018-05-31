@@ -85,7 +85,7 @@ USB Mice Overclocking Software (for Windows)
 
 4. Contacts.
   You can access newest version at this link:
-  http://sweetlow.orgfree.com/download/hidusbf.zip
+  https://github.com/LordOfMice/hidusbf
   
   If you can't make the program work you can contact the author - email: 
   sweetlow@tut.by
