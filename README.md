@@ -87,9 +87,9 @@ USB Mice Overclocking Software (for Windows)
   You can access newest version at this link:
   https://github.com/LordOfMice/hidusbf
   
-  If you can't make the program work you can contact the author - email: 
-  sweetlow@tut.by
-
+  If you can't make the program work you can contact the author, see email
+  in hidusbf.zip
+  
   Good luck in overclocking mice :)               SweetLow
 
 5. History.
