@@ -24,7 +24,7 @@ USB Mice Overclocking Software (for Windows)
   I have personally tested it under Windows 98SE, Windows 2000 SP2/SP4, 
   Windows XP RTM/SP1/SP2/SP3, Windows Vista 32 bit RTM, 
   Windows Vista 64 bit RTM, Windows 7 SP1 x86, Windows 7 SP1 x64,
-  Windows 8 x64, Windows 10 x64 (1803, 1809).
+  Windows 8 x64.
   Testing under Windows XP x64 SP1 was performed by Dark_Cloud.
 
 2. Installation.
@@ -84,17 +84,25 @@ USB Mice Overclocking Software (for Windows)
   then scan for new devices.
 
 4. Contacts.
-  You can access newest version at this link:
+  You can access the newest version at this link:
   https://github.com/LordOfMice/hidusbf
-  Recent info:
-  https://www.overclock.net/forum/375-mice/1589644-usb-mouse-hard-overclocking-2000-hz.html
-  (the end of the first post and recent posts in thread)
-  If you can't make the program work you can contact the author, see email
-  in hidusbf.zip
-  
+
+  Recent info
+  https://www.overclock.net/forum/375-mice/1589644-usb-mouse-hard-overclocking-2000-hz.html 
+  (the end of the first post and recent posts in thread)  
+
   Good luck in overclocking mice :)               SweetLow
 
 5. History.
+
+-------------------------------------------------------------------------------
+
+Added 2018/12/16:
+
+1. Improved Setup
+- added "CopyIDs" button to copy DeviceInstanceID and HardwareIDs 
+(for use in any external program restarting device (using atsiv method))
+- added dpiAware tag to manifest
 
 -------------------------------------------------------------------------------
 
