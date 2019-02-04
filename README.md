@@ -11,9 +11,10 @@ USB Mice Overclocking Software (for Windows)
   controlled by non Microsoft USB stack, like USB 3.x at Windows 7
   or newest Microsoft drivers.
 
-  !!! Note 2 - you shall disable Secure Boot to successfully load driver
-  under Windows 10 x64 version 1607 (Anniversary Update) or newer 
-  versions.
+  !!! Note 2 - you shall disable Secure Boot or modify the registry
+  to enable loading of Microsoft unsigned drivers to successfully load
+  driver under Windows 10 x64 version 1607 (Anniversary Update) or
+  newer versions.
 
   Program changes only mouse rate, not touching other devices on USB.
 
@@ -21,10 +22,10 @@ USB Mice Overclocking Software (for Windows)
   http://www.overclockers.ru/lab/15925/Razgon_USB_myshi_ili_Software_nanosit_otvetnyj_udar.html
   (in Russian language(*))
 
-  I have personally tested it under Windows 98SE, Windows 2000 SP2/SP4, 
-  Windows XP RTM/SP1/SP2/SP3, Windows Vista 32 bit RTM, 
-  Windows Vista 64 bit RTM, Windows 7 SP1 x86, Windows 7 SP1 x64,
-  Windows 8 x64.
+  I have personally tested it under Windows 98SE, 2000 SP2/SP4, 
+  XP RTM/SP1/SP2/SP3, XP x64 SP2, Vista 32 bit RTM/SP2, 
+  Vista 64 bit RTM, 7 x86 SP1, 7 x64 SP1, 8 x64, 8.1 x64,
+  10 x64 1803, 10 x64 1809.
   Testing under Windows XP x64 SP1 was performed by Dark_Cloud.
 
 2. Installation.
@@ -38,14 +39,16 @@ USB Mice Overclocking Software (for Windows)
   Because Windows 2000 have not restrictions of overclocking Low Speed USB
   devices in system code - you can use the driver from DRIVER\NTX86\NOPATCH\
   always. Windows 98 and ME also have not such restrictions, so
-  there is no patch version of driver for this OSes at all.
+  there is no patch version of driver for these OSes at all.
 
   2. For OSes begining from Windows XP for successful overclocking of
   Low Speed USB devices is REQUIRED the presence original (not altered
   by other programs) version of system driver USBPORT.SYS 
   (%sytemroot%\system32\drivers\usbport.sys).
-  Windows 8 beginning also work with USBXHCI.SYS
-  (%sytemroot%\system32\drivers\usbxhci.sys)
+  Windows 8 beginning also works with USBXHCI.SYS
+  (%sytemroot%\system32\drivers\usbxhci.sys).
+  And under Windows 7 is supported Intel xHCI driver (IUSB3XHC.SYS)
+  (see additions in HIDUSBFN.ZIP)
 
   3. Install my driver HIDUSBF.SYS. For this purpose execute SETUP.EXE (there
   should also be .INF and .SYS files). Click Install Service.
