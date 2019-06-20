@@ -100,6 +100,14 @@ USB Mice Overclocking Software (for Windows)
 
 -------------------------------------------------------------------------------
 
+Added 2019/06/21:
+
+1. Improved Setup
+- added check for the presence of an executable driver service at the time 
+of installation filter on device
+
+-------------------------------------------------------------------------------
+
 Added 2018/12/16:
 
 1. Improved Setup
