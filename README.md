@@ -100,6 +100,16 @@ USB Mice Overclocking Software (for Windows)
 
 -------------------------------------------------------------------------------
 
+Added 2019/10/26:
+
+1. Setup v2.0
+- literally everything is improved: 
+the form is simplified,
+display of the whole essential information added,
+all reasonable checks are implemented
+
+-------------------------------------------------------------------------------
+
 Added 2019/06/21:
 
 1. Improved Setup
