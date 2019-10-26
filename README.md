@@ -58,10 +58,6 @@ USB Mice Overclocking Software (for Windows)
   standard possibility:
   mouse right button click on HIDUSBF.INF -> Install
 
-  If you wand to overclock mouse from Composite USB device
-  - use checkbox "Process Parent". Note, there is overclocked
-  all functional devices from composite device, not the mouse only.
-
   Then choose the line with your mouse and put a checkmark Filter On Device.
   Check that in the row Filter it says Yes. After that choose desired refresh
   rate. After that click Restart. Check if the refresh rate has really 
