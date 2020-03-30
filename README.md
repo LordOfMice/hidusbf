@@ -96,6 +96,14 @@ USB Mice Overclocking Software (for Windows)
 
 -------------------------------------------------------------------------------
 
+Added 2020/03/29:
+
+1. Setup
+- real versions of files on Copy IDs on modern OSes
+- VIA xHCI Controller Driver (XHCDRV.SYS) marked as good
+
+-------------------------------------------------------------------------------
+
 Added 2019/10/26:
 
 1. Setup v2.0
