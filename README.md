@@ -36,9 +36,9 @@ USB Mice Overclocking Software (for Windows)
   from directories DRIVER\NTX86\NOPATCH\ and DRIVER\AMD64\NOPATCH\ 
   and replace drivers from directories DRIVER\NTX86\ and DRIVER\AMD64\
 
-  Because Windows 2000 have not restrictions of overclocking Low Speed USB
+  Because Windows 2000 doesn't have restrictions of overclocking Low Speed USB
   devices in system code - you can use the driver from DRIVER\NTX86\NOPATCH\
-  always. Windows 98 and ME also have not such restrictions, so
+  always. Windows 98 and ME also don't have such restrictions, so
   there is no patch version of driver for these OSes at all.
 
   2. For OSes begining from Windows XP for successful overclocking of
@@ -74,13 +74,15 @@ USB Mice Overclocking Software (for Windows)
   or simply too new and so unknown to the program.
 
 3. Uninstall.
-  1. Unlink driver from mouse through SETUP.EXE (Filter = No)
+  1. Unlink driver from mouse through SETUP.EXE (Filter = Unchecked)
   2. For removing a service and file of driver:
   mouse right button click on HIDUSBFU.INF -> Install
   3. If you have delete a driver but not unlink it from mouse
   then the mouse will stop working. To make mouse working you
   may simply delete device, corresponding to mouse in Device Manager,
-  then scan for new devices.
+  then scan for new devices. Or use 
+  SETUP.EXE->[All] or [with Problem] or [with HIDUSBF] Devices->
+  Filter = Unchecked->[Restart]
 
 4. Contacts.
   You can access the newest version at this link:
@@ -93,6 +95,13 @@ USB Mice Overclocking Software (for Windows)
   Good luck in overclocking mice :)               SweetLow
 
 5. History.
+
+-------------------------------------------------------------------------------
+
+Added 2020/06/05:
+
+1. Setup
+- added check for hidusbf service can run
 
 -------------------------------------------------------------------------------
 
