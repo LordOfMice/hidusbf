@@ -2,7 +2,7 @@
 USB Mice Overclocking Software (for Windows)
 
 1. Short description.
-  This driver/program is intended to "overclock" USB mice (and 
+  This driver/program is intended to "overclock" USB mice (or 
   other devices) under Windows 98, 98SE, ME, 2000, XP, Vista, 
   7, 8, 8.1, 10 including x64 versions.
   Also may be used for downclocking (and downclocking shall work always).
@@ -16,7 +16,7 @@ USB Mice Overclocking Software (for Windows)
   driver under Windows 10 x64 version 1607 (Anniversary Update) or
   newer versions.
 
-  Program changes only mouse rate, not touching other devices on USB.
+  Program changes rate on selected devices only, not touching other devices on USB.
 
   You can learn more about theory and the program here:
   http://www.overclockers.ru/lab/15925/Razgon_USB_myshi_ili_Software_nanosit_otvetnyj_udar.html
