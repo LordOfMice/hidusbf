@@ -26,7 +26,7 @@ USB Mice Overclocking Software (for Windows)
   I have personally tested it under Windows 98SE, 2000 SP2/SP4,
   XP RTM/SP1/SP2/SP3, XP x64 SP2, Vista 32 bit RTM/SP2,
   Vista 64 bit RTM, 7 x86 SP1, 7 x64 SP1, 8 x64, 8.1 x64,
-  10 x64 1803, 1809, 1909.
+  10 x64 1803, 1809, 1909, 20H2.
   Testing under Windows XP x64 SP1 was performed by Dark_Cloud.
 
 2. Installation.
