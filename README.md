@@ -1,20 +1,18 @@
 # hidusbf
-USB Mice Overclocking Software (for Windows)
-
 1. Short description.
-  This driver/program is intended to "overclock" USB mice (or
-  other devices) under Windows 98, 98SE, ME, 2000, XP, Vista,
+  This driver/program is intended to "overclock" USB mice (or 
+  other devices) under Windows 98, 98SE, ME, 2000, XP, 2003, Vista, 
   7, 8, 8.1, 10 including x64 versions.
   Also may be used for downclocking (and downclocking shall work always).
 
-  !!! Note - overclocking may not work for Low speed devices which
-  controlled by non Microsoft USB stack, like USB 3.x at Windows 7
-  or newest Microsoft drivers.
+  !!! Warning - overclocking may not work for Low Speed USB devices which 
+  controlled by non Microsoft USB stack, like OEM USB 3.x drivers
+  at Windows 7 or with the newest Microsoft drivers.
 
-  !!! Note 2 - you shall disable Secure Boot or modify the registry
-  to enable loading of Microsoft unsigned drivers to successfully load
-  driver under Windows 10 x64 version 1607 (Anniversary Update) or
-  newer versions.
+  !!! Warning 2 - you SHALL disable Secure Boot or modify the Registry
+  accordingly to enable loading of Microsoft unsigned drivers to load
+  HIDUSBF driver successfully under Windows 10 x64 version 1607
+  (Anniversary Update) or newer versions.
 
   Program changes rate on selected devices only, not touching other devices
   on USB.
@@ -23,28 +21,36 @@ USB Mice Overclocking Software (for Windows)
   http://www.overclockers.ru/lab/15925/Razgon_USB_myshi_ili_Software_nanosit_otvetnyj_udar.html
   (in Russian language(*))
 
-  I have personally tested it under Windows 98SE, 2000 SP2/SP4,
-  XP RTM/SP1/SP2/SP3, XP x64 SP2, Vista 32 bit RTM/SP2,
+  I have personally tested it under Windows 98SE, 2000 SP2/SP4, 
+  XP RTM/SP1/SP2/SP3, XP x64 SP2, 2003 x86 SP2, Vista 32 bit RTM/SP2, 
   Vista 64 bit RTM, 7 x86 SP1, 7 x64 SP1, 8 x64, 8.1 x64,
-  10 x64 1803, 1809, 1909, 20H2.
-  Testing under Windows XP x64 SP1 was performed by Dark_Cloud.
+  10 x64 1803, 1809, 1909, 20H2, 21H1.
+  The first testing on x64 platform was performed by Dark_Cloud under
+  Windows XP x64 SP1.
 
 2. Installation.
   1. Downclocking (all devices and drivers) or overclocking of Full Speed USB
   devices is possible always and there is no need to patch system code.
 
   So, if you use program for this purpose - take drivers
-  from directories DRIVER\NTX86\NOPATCH\ and DRIVER\AMD64\NOPATCH\
+  from directories DRIVER\NTX86\NOPATCH\ and DRIVER\AMD64\NOPATCH\ 
   and replace drivers from directories DRIVER\NTX86\ and DRIVER\AMD64\
 
-  Because Windows 2000 doesn't have restrictions of overclocking Low Speed USB
-  devices in system code - you can use the driver from DRIVER\NTX86\NOPATCH\
-  always. Windows 98 and ME also don't have such restrictions, so
-  there is no patch version of driver for these OSes at all.
+  Because Windows 2000 doesn't have restrictions for overclocking Low Speed USB
+  devices in driver code for OHCI and UHCI controllers you can use the driver 
+  from DRIVER\NTX86\NOPATCH\. Windows 98 and ME also don't have such 
+  restrictions, so there is no patch version of driver for these OSes at all.
+
+  If you use your device with pure EHCI controller (without companion 
+  UHCI or OHCI controllers and with integrated USB2.0 Hub) or with any 
+  EHCI controller through USB2.0 Hub on Windows 2000 then just use
+  ordinary version of driver (with patch).
+  And there is special unofficial version of USBPORT.SYS for Windows 98 and ME
+  without any restrictions of polling rate for such cases.
 
   2. For OSes begining from Windows XP for successful overclocking of
   Low Speed USB devices is REQUIRED the presence original (not altered
-  by other programs) version of system driver USBPORT.SYS
+  by other programs) version of system driver USBPORT.SYS 
   (%sytemroot%\system32\drivers\usbport.sys).
   Windows 8 beginning also works with USBXHCI.SYS
   (%sytemroot%\system32\drivers\usbxhci.sys).
@@ -52,23 +58,24 @@ USB Mice Overclocking Software (for Windows)
   (see additions in HIDUSBFN.ZIP)
 
   3. Install my driver HIDUSBF.SYS. For this purpose execute SETUP.EXE (there
-  should also be .INF and .SYS files). Click Install Service.
+  should also be .INF and .SYS files UNZIPPED). Click [Install Service].
 
-  In case of HIDUSBF service wasn't installed through
-  SETUP.EXE (button "Install Service") you may try to do this by OS
+  In case of HIDUSBF service wasn't installed through 
+  SETUP.EXE (button [Install Service]) you may try to do this by OS 
   standard possibility:
   mouse right button click on HIDUSBF.INF -> Install
+  It is enough to install the service once for each OS instance.
 
-  Then choose the line with your mouse and put a checkmark Filter On Device.
-  Check that in the row Filter it says Yes. After that choose desired refresh
-  rate. After that click Restart. Check if the refresh rate has really
+  Then choose the row with your device and put a checkmark Filter On Device.
+  Check that in the column Filter? it says Yes. After that choose desired refresh
+  rate. After that push [Restart]. Check if the refresh rate has really 
   changed (for example with the program Mouse Rate Checker).
 
-  If your rate did not change, then you should either restart, plug out
-  and plug in mouse cable or stop your mouse and restart it in
+  If your rate did not change, then you should either reboot, plug-out
+  and plug-in mouse cable or stop and then start your mouse in 
   Device Manager.
-
-  If the rate does not increase more than 125Hz, then you should
+   
+  If the rate does not increase more than 125Hz, then you should 
   try DECREASE it to 31Hz or 62Hz.
   If the rate does decrease, then the driver functions properly, however
   or you mouse is not overclockable; or USBPORT.SYS/USBXHCI.SYS was altered
@@ -80,18 +87,18 @@ USB Mice Overclocking Software (for Windows)
   mouse right button click on HIDUSBFU.INF -> Install
   3. If you have delete a driver but not unlink it from mouse
   then the mouse will stop working. To make mouse working you
-  may simply delete device, corresponding to mouse in Device Manager,
-  then scan for new devices. Or use
-  SETUP.EXE->[All] or [with Problem] or [with HIDUSBF] Devices->
-  Filter = Unchecked->[Restart]
+  can just delete device, corresponding to mouse in Device Manager,
+  then scan for new devices. Or use 
+  SETUP.EXE -> [All] or [with Problem] or [with HIDUSBF] Devices ->
+  [Filter On Device] is Unchecked -> [Restart]
 
 4. Contacts.
   You can access the newest version at this link:
   https://github.com/LordOfMice/hidusbf
 
   Recent info
-  https://www.overclock.net/threads/usb-mouse-hard-overclocking-2000-hz.1589644/
-  (the end of the first post and recent posts in thread)
+  https://www.overclock.net/forum/375-mice/1589644-usb-mouse-hard-overclocking-2000-hz.html 
+  (the end of the first post and recent posts in thread)  
 
   Good luck in overclocking mice :)               SweetLow
 
@@ -124,7 +131,7 @@ Added 2020/03/29:
 Added 2019/10/26:
 
 1. Setup v2.0
-- literally everything is improved:
+- literally everything is improved: 
 the form is simplified,
 display of the whole essential information added,
 all reasonable checks are implemented
@@ -134,7 +141,7 @@ all reasonable checks are implemented
 Added 2019/06/21:
 
 1. Improved Setup
-- added check for the presence of an executable driver service at the time
+- added check for the presence of an runnable driver service at the time 
 of installation filter on device
 
 -------------------------------------------------------------------------------
@@ -142,7 +149,7 @@ of installation filter on device
 Added 2018/12/16:
 
 1. Improved Setup
-- added "CopyIDs" button to copy DeviceInstanceID and HardwareIDs
+- added "CopyIDs" button to copy DeviceInstanceID and HardwareIDs 
 (for use in any external program restarting device (using atsiv method))
 - added dpiAware tag to manifest
 
@@ -150,7 +157,7 @@ Added 2018/12/16:
 
 Added 2017/01/08:
 
-1. Setup now always want/ask to run with Admin rights under modern Windows.
+1. Setup now always wants/asks to run with Admin rights under modern Windows.
 
 2. Added a note about disabling Secure Boot to run driver under Windows 10 x64
 version 1607 (Anniversary Update).
@@ -159,7 +166,7 @@ version 1607 (Anniversary Update).
 
 Added 2016/05/01:
 
-1. Drivers was signed by kernel mode sign - no Test Mode needed for x64
+1. Drivers was signed by kernel mode sign - no Test Mode needed for x64 
 versions now. Thanks to people from OCN (www.overclock.net):
 
 ownage11
@@ -191,7 +198,7 @@ driver for any USB device (under your personal liability)
 Added 2016/01/30:
 
 1. Fixed bug in code of patching driver of USB3.0 controller (USBXHCI.SYS)
-Bug can observed, for example, when USB audio device managed by USB3.0
+Bug can observed, for example, when USB audio device managed by USB3.0 
 controller stop working.
 
 -------------------------------------------------------------------------------
@@ -204,7 +211,7 @@ all functional devices from composite device, not the mouse only.
 For this feature functioning recompiled old drivers for Win 98&ME, 2000.
 
 2. I was surprised to learn that some people use driver to change rate of
-Full speed USB mice. So, nonpatching version of x64 driver returned to package
+Full Speed USB mice. So, nonpatching version of x64 driver returned to package
 and such kind of using described in Installation section.
 
 -------------------------------------------------------------------------------
@@ -219,7 +226,7 @@ USB2.0 (USBPORT.SYS) and USB3.0 (USBXHCI.SYS)
 Added 2015/04/06:
 
 1. Much of fixing and enhancement in Setup:
-  - "Restart" button now really :) work under x64;
+  - "Restart" button now really :) works under x64; 
   - USB HID mouse detected in multifunctional devices;
   - installed filter can be undoned on nonstarting devices
     (unsigned driver at x64...) - with unchecked "Mice Only";
@@ -229,7 +236,7 @@ Added 2015/04/06:
 
 Added 2009/02/11:
 
-1. Driver (patcher of USBPORT.SYS) work in Windows 7 x64 now.
+1. Driver (patcher of USBPORT.SYS) works in Windows 7 x64 now.
 
 -------------------------------------------------------------------------------
 
@@ -250,15 +257,15 @@ driver will load only with disabled driver signature enforcement.
 
 Added 2008/04/19:
 
-1. Windows Vista 64 bit checked and work (with disabled driver
+1. Windows Vista 64 bit checked and work (with disabled driver 
 signature enforcement).
 
 -------------------------------------------------------------------------------
 
 Added 2007/05/16:
 
-1. Windows Vista 32 bit checked and work. In principle, version for XP x64
-may work under Vista 64 bit, however AFAIK there is required
+1. Windows Vista 32 bit checked and work. In principle, version for XP x64 
+may work under Vista 64 bit, however AFAIK there is required 
 digitally signed driver...
 2. Documentation rewritten.
 3. Patched USBPORT.SYS move into separate archive.
@@ -281,13 +288,13 @@ Thank Dark_Cloud once again for recurrent testing.
 
 Added 2005/12/26:
 
-1. Driver was enhanced - for its installation under XP is NOT
+1. Driver was enhanced - for its installation under XP is NOT 
 required to install corrected USBPORT.SYS. However, if there is observed
 some anomalies - you may go back to old working sequence
 (corrected USBPORT.SYS + driver in the folder DRIVER\STD).
-Thank Alan 'Strider' Kivlin for the idea of patching the code
+Thank Alan 'Strider' Kivlin for the idea of patching the code 
 of USBPORT.SYS on the fly.
-Thank Root for valuable link for realization.
+Thank Root for valuable link for implementation.
 The same development for Windows XP x64 is still not done - there is a
 difficulties with testing.
 
