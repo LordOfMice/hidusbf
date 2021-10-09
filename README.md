@@ -2,7 +2,7 @@
 1. Short description.
   This driver/program is intended to "overclock" USB mice (or 
   other devices) under Windows 98, 98SE, ME, 2000, XP, 2003, Vista, 
-  7, 8, 8.1, 10 including x64 versions.
+  7, 8, 8.1, 10, 11 including x64 versions.
   Also may be used for downclocking (and downclocking shall work always).
 
   !!! Warning - overclocking may not work for Low Speed USB devices which 
@@ -97,7 +97,7 @@
   https://github.com/LordOfMice/hidusbf
 
   Recent info
-  https://www.overclock.net/forum/375-mice/1589644-usb-mouse-hard-overclocking-2000-hz.html 
+  https://www.overclock.net/threads/usb-mouse-hard-overclocking-2000-hz.1589644/
   (the end of the first post and recent posts in thread)  
 
   Good luck in overclocking mice :)               SweetLow
