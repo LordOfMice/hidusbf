@@ -24,7 +24,7 @@
   I have personally tested it under Windows 98SE, 2000 SP2/SP4, 
   XP RTM/SP1/SP2/SP3, XP x64 SP2, 2003 x86 SP2, Vista 32 bit RTM/SP2, 
   Vista 64 bit RTM, 7 x86 SP1, 7 x64 SP1, 8 x64, 8.1 x64,
-  10 x64 1803, 1809, 1909, 20H2, 21H1.
+  10 x64 1803, 1809, 1909, 20H2, 21H1, 21H2.
   The first testing on x64 platform was performed by Dark_Cloud under
   Windows XP x64 SP1.
 
