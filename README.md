@@ -100,9 +100,20 @@
   https://www.overclock.net/threads/usb-mouse-hard-overclocking-2000-hz.1589644/
   (the end of the first post and recent posts in thread)  
 
+  If you can't make the program work you can contact the author - email: 
+  sweetlow@tut.by
+
   Good luck in overclocking mice :)               SweetLow
 
 5. History.
+
+-------------------------------------------------------------------------------
+
+Added 2022/07/13:
+
+1. Setup
+- USB High Speed devices support
+- OS Version and Bus Speed name on [Copy IDs]
 
 -------------------------------------------------------------------------------
 
