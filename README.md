@@ -1,4 +1,3 @@
-# hidusbf
 1. Short description.
   This driver/program is intended to "overclock" USB mice (or 
   other devices) under Windows 98, 98SE, ME, 2000, XP, 2003, Vista, 
@@ -24,7 +23,7 @@
   I have personally tested it under Windows 98SE, 2000 SP2/SP4, 
   XP RTM/SP1/SP2/SP3, XP x64 SP2, 2003 x86 SP2, Vista 32 bit RTM/SP2, 
   Vista 64 bit RTM, 7 x86 SP1, 7 x64 SP1, 8 x64, 8.1 x64,
-  10 x64 1803, 1809, 1909, 20H2, 21H1, 21H2.
+  10 x64 1803, 1809, 1909, 20H2, 21H1, 21H2, 22H2.
   The first testing on x64 platform was performed by Dark_Cloud under
   Windows XP x64 SP1.
 
@@ -84,7 +83,10 @@
 3. Uninstall.
   1. Unlink driver from mouse through SETUP.EXE (Filter = Unchecked)
   2. For removing a service and file of driver:
-  mouse right button click on HIDUSBFU.INF -> Install
+  Setup.EXE -> mouse right button click on [Install Service] ->
+  [UnInstall Service]
+  or
+  mouse right button click on HIDUSBFU.INF -> Install in Explorer
   3. If you have delete a driver but not unlink it from mouse
   then the mouse will stop working. To make mouse working you
   can just delete device, corresponding to mouse in Device Manager,
@@ -103,6 +105,14 @@
   Good luck in overclocking mice :)               SweetLow
 
 5. History.
+
+-------------------------------------------------------------------------------
+
+Added 2024/04/09:
+
+1. Setup
+- added uninstalling service in Setup.EXE (mouse right button click on
+[Install Service])
 
 -------------------------------------------------------------------------------
 
