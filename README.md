@@ -8,10 +8,9 @@
   controlled by non Microsoft USB stack, like OEM USB 3.x drivers
   at Windows 7 or with the newest Microsoft drivers.
 
-  !!! Warning 2 - you SHALL disable Secure Boot or modify the Registry
-  accordingly to enable loading of Microsoft unsigned drivers to load
-  HIDUSBF driver successfully under Windows 10 x64 version 1607
-  (Anniversary Update) or newer versions.
+  !!! Warning 2 - you SHALL disable Memory Integrity to load
+  HIDUSBF driver successfully under recent versions of Windows 10 x64
+  or Windows 11 (the current state).
 
   Program changes rate on selected devices only, not touching other devices
   on USB.
@@ -23,7 +22,7 @@
   I have personally tested it under Windows 98SE, 2000 SP2/SP4, 
   XP RTM/SP1/SP2/SP3, XP x64 SP2, 2003 x86 SP2, Vista 32 bit RTM/SP2, 
   Vista 64 bit RTM, 7 x86 SP1, 7 x64 SP1, 8 x64, 8.1 x64,
-  10 x64 1803, 1809, 1909, 20H2, 21H1, 21H2, 22H2.
+  10 x64 1803, 1809, 1909, 20H2, 21H1, 21H2, 22H2, 11 22H2.
   The first testing on x64 platform was performed by Dark_Cloud under
   Windows XP x64 SP1.
 
@@ -32,8 +31,8 @@
   devices is possible always and there is no need to patch system code.
 
   So, if you use program for this purpose - take drivers
-  from directories DRIVER\NTX86\NOPATCH\ and DRIVER\AMD64\NOPATCH\ 
-  and replace drivers from directories DRIVER\NTX86\ and DRIVER\AMD64\
+  from directories DRIVER\NTX86[_AS]\NOPATCH\ and DRIVER\AMD64[_AS]\NOPATCH\ 
+  and replace drivers from directories DRIVER\NTX86[_AS]\ and DRIVER\AMD64[_AS]\
 
   Because Windows 2000 doesn't have restrictions for overclocking Low Speed USB
   devices in driver code for OHCI and UHCI controllers you can use the driver 
@@ -62,7 +61,9 @@
   In case of HIDUSBF service wasn't installed through 
   SETUP.EXE (button [Install Service]) you may try to do this by OS 
   standard possibility:
-  mouse right button click on HIDUSBF.INF -> Install
+  mouse right button click on HIDUSBF.INF / HIDUSBF_AS.INF -> Install
+  By default (in SETUP.EXE) HIDUSBF.INF applies to all OSes up to Windows 8
+  and HIDUSBF_AS.INF starting from Windows 8.1.
   It is enough to install the service once for each OS instance.
 
   Then choose the row with your device and put a checkmark Filter On Device.
@@ -102,9 +103,30 @@
   https://www.overclock.net/threads/usb-mouse-hard-overclocking-2000-hz.1589644/
   (the end of the first post and recent posts in thread)  
 
+  If you can't make the program work you can contact the author - email: 
+  sweetlow@tut.by
+
   Good luck in overclocking mice :)               SweetLow
 
 5. History.
+
+-------------------------------------------------------------------------------
+
+Added 2024/07/23:
+
+1. The latest version of drivers are signed by Microsoft Attestattion Signing.
+Thanks to Battle Beaver Customs http://www.battlebeavercustoms.com/
+At this point there should no longer be a problem with Secure Boot,
+but see Warning 2.
+The process of modification the drivers to work with Memory Integrity enabled
+is in progress but not finalized at this time.
+2. Setup
+- modified for the installation of new drivers: starting with Windows 8.1
+drivers with the setup information HIDUSBF_AS.INF and the location
+in AMD64_AS / NTx86_AS are used
+- as a thank for the signed drivers added a link to Battle Beaver Customs
+(visible if runs on OSes for which new drivers are used).
+- [About] added
 
 -------------------------------------------------------------------------------
 
