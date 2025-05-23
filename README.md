@@ -9,8 +9,8 @@
   at Windows 7 or with the newest Microsoft drivers.
 
   !!! Warning 2 - you SHALL disable Memory Integrity to load
-  HIDUSBF driver successfully under recent versions of Windows 10 x64
-  or Windows 11 (the current state).
+  patching versions of HIDUSBF driver under recent versions
+  of Windows 10 x64 or Windows 11.
 
   Program changes rate on selected devices only, not touching other devices
   on USB.
@@ -57,6 +57,11 @@
 
   3. Install my driver HIDUSBF.SYS. For this purpose execute SETUP.EXE (there
   should also be .INF and .SYS files UNZIPPED). Click [Install Service].
+  You may see quick flash of installation process, or you may not see
+  anything, because this process is really fast.
+  It doesn't matter, the subsequent installation of the filter does
+  to verify that the service is actually installed, so move on to the next
+  step, which is to install the filter on the device (Filter On Device).
 
   In case of HIDUSBF service wasn't installed through 
   SETUP.EXE (button [Install Service]) you may try to do this by OS 
@@ -103,17 +108,27 @@
   https://www.overclock.net/threads/usb-mouse-hard-overclocking-2000-hz.1589644/
   (the end of the first post and recent posts in thread)  
 
- 
   Good luck in overclocking mice :)               SweetLow
 
 5. History.
 
 -------------------------------------------------------------------------------
 
+Added 2025/04/09:
+
+1. The latest NoPatch version of x64 drivers (AMD64_AS) rebuilt to conform
+Memory Integrity requirements of Windows 10 x64 or Windows 11.
+Thanks to Battle Beaver Customs https://www.battlebeavercustoms.com/
+once again for recurrent signing.
+2. README clarification of [Install Service] behaviour.
+3. Setup - clarification for Errors #193 and #577.
+
+-------------------------------------------------------------------------------
+
 Added 2024/07/23:
 
 1. The latest version of drivers are signed by Microsoft Attestattion Signing.
-Thanks to Battle Beaver Customs http://www.battlebeavercustoms.com/
+Thanks to Battle Beaver Customs https://www.battlebeavercustoms.com/
 At this point there should no longer be a problem with Secure Boot,
 but see Warning 2.
 The process of modification the drivers to work with Memory Integrity enabled
