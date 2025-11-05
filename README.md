@@ -114,6 +114,36 @@
 
 -------------------------------------------------------------------------------
 
+Added 2025/11/05:
+
+1. Patching versions of drivers are compatible now with USBPORT.SYS
+of Windows 11 22H2+ (old UHCI, OHCI and EHCI USB Controllers).
+2. For patching version of drivers for modern OSes (AMD64_AS / NTx86_AS)
+it's possible now to disable patching of different drivers (USBXHCI.SYS for
+XHCI USB Controllers and USBPORT.SYS for UHCI, OHCI and EHCI USB Controllers)
+separately by Registry parameters:
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\HIDUSBF\Parameters]
+or
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\HIDUSBF]
+PatchUSBPort=dword:00000001
+PatchUSBXHCI=dword:00000001
+
+where PatchUSBPort has 0 and 1 values (0 - disable patching, 1 - enable)
+and PatchUSBXHCI has 0,1,2 and 3 values:
+0 - disable patching
+1 - 1k patching
+2 - 2k-4k patching
+3 - 4k-8k patching
+
+And strictly speaking 1k, 2k-4k and 4k-8k versions of driver are different
+now by PatchUSBPort default value only.
+
+Thanks to Battle Beaver Customs https://www.battlebeavercustoms.com/
+once again for invaluable help.
+
+-------------------------------------------------------------------------------
+
 Added 2025/04/09:
 
 1. The latest NoPatch version of x64 drivers (AMD64_AS) rebuilt to conform
