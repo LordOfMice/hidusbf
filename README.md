@@ -137,7 +137,7 @@ and PatchUSBXHCI has 0,1,2 and 3 values:
 3 - 4k-8k patching
 
 And strictly speaking 1k, 2k-4k and 4k-8k versions of driver are different
-now by PatchUSBPort default value only.
+now by PatchUSBXHCI default value only.
 
 Thanks to Battle Beaver Customs https://www.battlebeavercustoms.com/
 once again for invaluable help.
