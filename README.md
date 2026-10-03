@@ -114,6 +114,15 @@
 
 -------------------------------------------------------------------------------
 
+Added 2026/10/03:
+
+1. Yeo Kheng Meng's driver for xHCI controllers
+https://github.com/yeokm1/xhci98
+tested and refined sufficiently to support ordinary (up to 1000 Hz)
+overclocking:
+https://github.com/yeokm1/xhci98/releases/tag/v1.2.0.0
+2. Setup - xhci98 driver added to the list of known drivers.
+
 Added 2025/11/05:
 
 1. Patching versions of drivers are compatible now with USBPORT.SYS
