@@ -1,435 +1,53 @@
-1. Short description.
-  This driver/program is intended to "overclock" USB mice (or 
-  other devices) under Windows 98, 98SE, ME, 2000, XP, 2003, Vista, 
-  7, 8, 8.1, 10, 11 including x64 versions.
-  Also may be used for downclocking (and downclocking shall work always).
-
-  !!! Warning - overclocking may not work for Low Speed USB devices which 
-  controlled by non Microsoft USB stack, like OEM USB 3.x drivers
-  at Windows 7 or with the newest Microsoft drivers.
-
-  !!! Warning 2 - you SHALL disable Memory Integrity to load
-  patching versions of HIDUSBF driver under recent versions
-  of Windows 10 x64 or Windows 11.
-
-  Program changes rate on selected devices only, not touching other devices
-  on USB.
-
-  You can learn more about theory and the program here:
-  http://www.overclockers.ru/lab/15925/Razgon_USB_myshi_ili_Software_nanosit_otvetnyj_udar.html
-  (in Russian language(*))
-
-  I have personally tested it under Windows 98SE, 2000 SP2/SP4, 
-  XP RTM/SP1/SP2/SP3, XP x64 SP2, 2003 x86 SP2, Vista 32 bit RTM/SP2, 
-  Vista 64 bit RTM, 7 x86 SP1, 7 x64 SP1, 8 x64, 8.1 x64,
-  10 x64 1803, 1809, 1909, 20H2, 21H1, 21H2, 22H2, 11 22H2.
-  The first testing on x64 platform was performed by Dark_Cloud under
-  Windows XP x64 SP1.
-
-2. Installation.
-  1. Downclocking (all devices and drivers) or overclocking of Full Speed USB
-  devices is possible always and there is no need to patch system code.
-
-  So, if you use program for this purpose - take drivers
-  from directories DRIVER\NTX86[_AS]\NOPATCH\ and DRIVER\AMD64[_AS]\NOPATCH\ 
-  and replace drivers from directories DRIVER\NTX86[_AS]\ and DRIVER\AMD64[_AS]\
-
-  Because Windows 2000 doesn't have restrictions for overclocking Low Speed USB
-  devices in driver code for OHCI and UHCI controllers you can use the driver 
-  from DRIVER\NTX86\NOPATCH\. Windows 98 and ME also don't have such 
-  restrictions, so there is no patch version of driver for these OSes at all.
-
-  If you use your device with pure EHCI controller (without companion 
-  UHCI or OHCI controllers and with integrated USB2.0 Hub) or with any 
-  EHCI controller through USB2.0 Hub on Windows 2000 then just use
-  ordinary version of driver (with patch).
-  And there is special unofficial version of USBPORT.SYS for Windows 98 and ME
-  without any restrictions of polling rate for such cases.
-
-  2. For OSes begining from Windows XP for successful overclocking of
-  Low Speed USB devices is REQUIRED the presence original (not altered
-  by other programs) version of system driver USBPORT.SYS 
-  (%sytemroot%\system32\drivers\usbport.sys).
-  Windows 8 beginning also works with USBXHCI.SYS
-  (%sytemroot%\system32\drivers\usbxhci.sys).
-  And under Windows 7 is supported Intel xHCI driver (IUSB3XHC.SYS)
-  (see additions in HIDUSBFN.ZIP)
-
-  3. Install my driver HIDUSBF.SYS. For this purpose execute SETUP.EXE (there
-  should also be .INF and .SYS files UNZIPPED). Click [Install Service].
-  You may see quick flash of installation process, or you may not see
-  anything, because this process is really fast.
-  It doesn't matter, the subsequent installation of the filter does
-  to verify that the service is actually installed, so move on to the next
-  step, which is to install the filter on the device (Filter On Device).
-
-  In case of HIDUSBF service wasn't installed through 
-  SETUP.EXE (button [Install Service]) you may try to do this by OS 
-  standard possibility:
-  mouse right button click on HIDUSBF.INF / HIDUSBF_AS.INF -> Install
-  By default (in SETUP.EXE) HIDUSBF.INF applies to all OSes up to Windows 8
-  and HIDUSBF_AS.INF starting from Windows 8.1.
-  It is enough to install the service once for each OS instance.
-
-  Then choose the row with your device and put a checkmark Filter On Device.
-  Check that in the column Filter? it says Yes. After that choose desired refresh
-  rate. After that push [Restart]. Check if the refresh rate has really 
-  changed (for example with the program Mouse Rate Checker).
-
-  If your rate did not change, then you should either reboot, plug-out
-  and plug-in mouse cable or stop and then start your mouse in 
-  Device Manager.
-   
-  If the rate does not increase more than 125Hz, then you should 
-  try DECREASE it to 31Hz or 62Hz.
-  If the rate does decrease, then the driver functions properly, however
-  or you mouse is not overclockable; or USBPORT.SYS/USBXHCI.SYS was altered
-  or simply too new and so unknown to the program.
-
-3. Uninstall.
-  1. Unlink driver from mouse through SETUP.EXE (Filter = Unchecked)
-  2. For removing a service and file of driver:
-  Setup.EXE -> mouse right button click on [Install Service] ->
-  [UnInstall Service]
-  or
-  mouse right button click on HIDUSBFU.INF -> Install in Explorer
-  3. If you have delete a driver but not unlink it from mouse
-  then the mouse will stop working. To make mouse working you
-  can just delete device, corresponding to mouse in Device Manager,
-  then scan for new devices. Or use 
-  SETUP.EXE -> [All] or [with Problem] or [with HIDUSBF] Devices ->
-  [Filter On Device] is Unchecked -> [Restart]
+# ControllerSupercharge
 
-4. Contacts.
-  You can access the newest version at this link:
-  https://github.com/LordOfMice/hidusbf
+**by Christian Pruitt**
 
-  Recent info
-  https://www.overclock.net/threads/usb-mouse-hard-overclocking-2000-hz.1589644/
-  (the end of the first post and recent posts in thread)  
+A simple Windows app that raises your controller's USB polling rate, for example from 250 Hz to 1000 Hz, and lets you watch the controller live to check the difference.
 
-  Good luck in overclocking mice :)               SweetLow
+It's a friendly front end for [hidusbf](https://github.com/LordOfMice/hidusbf) by SweetLow. That driver does the actual work.
 
-5. History.
+## Using it
 
--------------------------------------------------------------------------------
+1. Run `ControllerSupercharge.exe` and click **Yes** when Windows asks for admin rights.
+2. **Driver:** click **Install driver**. This is needed only once per PC. *Standard* works for almost every controller and is fine with Memory Integrity turned on.
+3. **Pick the controller.** Plug it in with a cable, or use its wireless dongle. Bluetooth can't be changed.
+4. **Choose a rate**, such as 1000 Hz, and click **Apply**. The controller restarts by itself.
+5. Open **Live Test**, press **Start 5-second test** and spin a stick. Run the test before and after the change to compare.
 
-Added 2026/10/03:
+To undo everything, use **Remove all**. It takes the filter off every device and uninstalls the driver.
 
-1. Yeo Kheng Meng's driver for xHCI controllers
-https://github.com/yeokm1/xhci98
-tested and refined sufficiently to support ordinary (up to 1000 Hz)
-overclocking:
-https://github.com/yeokm1/xhci98/releases/tag/v1.2.0.0
-2. Setup - xhci98 driver added to the list of known drivers.
+Minimizing the window, or clicking **Minimize to tray**, hides it in the system tray. Double-click the tray icon to bring it back.
 
-Added 2025/11/05:
+### Notes
 
-1. Patching versions of drivers are compatible now with USBPORT.SYS
-of Windows 11 22H2+ (old UHCI, OHCI and EHCI USB Controllers).
-2. For patching version of drivers for modern OSes (AMD64_AS / NTx86_AS)
-it's possible now to disable patching of different drivers (USBXHCI.SYS for
-XHCI USB Controllers and USBPORT.SYS for UHCI, OHCI and EHCI USB Controllers)
-separately by Registry parameters:
+- The Live Test tab reads controllers through XInput: Xbox controllers, and anything that shows up as one (Steam Input, DS4Windows and so on).
+- If the rate doesn't change, tick **Apply to the whole composite device**, or unplug and replug the controller.
+- Some controllers can't go above their built-in rate. That's a hardware limit.
 
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\HIDUSBF\Parameters]
-or
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\HIDUSBF]
-PatchUSBPort=dword:00000001
-PatchUSBXHCI=dword:00000001
+## How it works
 
-where PatchUSBPort has 0 and 1 values (0 - disable patching, 1 - enable)
-and PatchUSBXHCI has 0,1,2 and 3 values:
-0 - disable patching
-1 - 1k patching
-2 - 2k-4k patching
-3 - 4k-8k patching
+The app does the same things as hidusbf's own `Setup.exe`:
 
-And strictly speaking 1k, 2k-4k and 4k-8k versions of driver are different
-now by PatchUSBXHCI default value only.
+| Step | What happens |
+|---|---|
+| Install driver | Copies `hidusbf.sys` to `System32\drivers` and creates the `hidusbf` kernel service |
+| Apply | Adds `hidusbf` to the device's **LowerFilters** and writes **bInterval** (1 = 1000 Hz, 2 = 500, 4 = 250, 8 = 125) to the device's driver registry key |
+| Restart | `pnputil /restart-device` |
 
-Thanks to Battle Beaver Customs https://www.battlebeavercustoms.com/
-once again for invaluable help.
+## Building from source
 
--------------------------------------------------------------------------------
+```bat
+pip install -r requirements.txt
+build.bat
+```
 
-Added 2025/04/09:
+The result is `dist\ControllerSupercharge.exe`, a single file with the drivers bundled inside.
 
-1. The latest NoPatch version of x64 drivers (AMD64_AS) rebuilt to conform
-Memory Integrity requirements of Windows 10 x64 or Windows 11.
-Thanks to Battle Beaver Customs https://www.battlebeavercustoms.com/
-once again for recurrent signing.
-2. README clarification of [Install Service] behaviour.
-3. Setup - clarification for Errors #193 and #577.
+To run from source, use `python app.py`. It asks for admin rights; add `--no-admin` to just look around.
 
--------------------------------------------------------------------------------
+## Credits
 
-Added 2024/07/23:
+- hidusbf driver: SweetLow ([original README](README.hidusbf.md)) (public domain binaries). The drivers are signed thanks to Battle Beaver Customs.
+- App: Christian Pruitt
 
-1. The latest version of drivers are signed by Microsoft Attestattion Signing.
-Thanks to Battle Beaver Customs https://www.battlebeavercustoms.com/
-At this point there should no longer be a problem with Secure Boot,
-but see Warning 2.
-The process of modification the drivers to work with Memory Integrity enabled
-is in progress but not finalized at this time.
-2. Setup
-- modified for the installation of new drivers: starting with Windows 8.1
-drivers with the setup information HIDUSBF_AS.INF and the location
-in AMD64_AS / NTx86_AS are used
-- as a thank for the signed drivers added a link to Battle Beaver Customs
-(visible if runs on OSes for which new drivers are used).
-- [About] added
-
--------------------------------------------------------------------------------
-
-Added 2024/04/09:
-
-1. Setup
-- added uninstalling service in Setup.EXE (mouse right button click on
-[Install Service])
-
--------------------------------------------------------------------------------
-
-Added 2022/07/18:
-
-1. Setup
-- added message on USB Low Speed devices overclocking to higher USB Speed Class
-
--------------------------------------------------------------------------------
-
-Added 2022/07/13:
-
-1. Setup
-- USB High Speed devices support
-- OS Version and Bus Speed name on [Copy IDs]
-
--------------------------------------------------------------------------------
-
-Added 2021/04/02:
-
-1. Setup
-- correctly shows long error messages
-
--------------------------------------------------------------------------------
-
-Added 2020/06/05:
-
-1. Setup
-- added check for hidusbf service can run
-
--------------------------------------------------------------------------------
-
-Added 2020/03/29:
-
-1. Setup
-- real versions of files on Copy IDs on modern OSes
-- VIA xHCI Controller Driver (XHCDRV.SYS) marked as good
-
--------------------------------------------------------------------------------
-
-Added 2019/10/26:
-
-1. Setup v2.0
-- literally everything is improved: 
-the form is simplified,
-display of the whole essential information added,
-all reasonable checks are implemented
-
--------------------------------------------------------------------------------
-
-Added 2019/06/21:
-
-1. Improved Setup
-- added check for the presence of an runnable driver service at the time 
-of installation filter on device
-
--------------------------------------------------------------------------------
-
-Added 2018/12/16:
-
-1. Improved Setup
-- added "CopyIDs" button to copy DeviceInstanceID and HardwareIDs 
-(for use in any external program restarting device (using atsiv method))
-- added dpiAware tag to manifest
-
--------------------------------------------------------------------------------
-
-Added 2017/01/08:
-
-1. Setup now always wants/asks to run with Admin rights under modern Windows.
-
-2. Added a note about disabling Secure Boot to run driver under Windows 10 x64
-version 1607 (Anniversary Update).
-
--------------------------------------------------------------------------------
-
-Added 2016/05/01:
-
-1. Drivers was signed by kernel mode sign - no Test Mode needed for x64 
-versions now. Thanks to people from OCN (www.overclock.net):
-
-ownage11
-Bucake
-kr0w
-qsxcv
-Regulations
-Alya
-
-And my special thanks to jeshuastarr - as signing process organizer.
-
-2. And drivers for overclocking up to 8000 Hz included now. Details on OCN:
-http://www.overclock.net/t/1589644/usb-mouse-hard-overclocking-2000-hz
-(and in README.2kHz-8kHz.ENG.TXT from jeshuastarr)
-
--------------------------------------------------------------------------------
-
-Added 2016/03/10:
-
-1. Improved Setup:
-- generalised code of USB HID device detection (and now it works
-with the Xbox 360 controllers)
-- interface was made more user-friendly and foolproof
-- added command line switch: /all (setup.exe /all) - allows you to set
-driver for any USB device (under your personal liability)
-
--------------------------------------------------------------------------------
-
-Added 2016/01/30:
-
-1. Fixed bug in code of patching driver of USB3.0 controller (USBXHCI.SYS)
-Bug can observed, for example, when USB audio device managed by USB3.0 
-controller stop working.
-
--------------------------------------------------------------------------------
-
-Added 2016/01/23:
-
-1. Now Setup can install driver for Composite USB device
-- use checkbox "Process Parent". Note, there is overclocked
-all functional devices from composite device, not the mouse only.
-For this feature functioning recompiled old drivers for Win 98&ME, 2000.
-
-2. I was surprised to learn that some people use driver to change rate of
-Full Speed USB mice. So, nonpatching version of x64 driver returned to package
-and such kind of using described in Installation section.
-
--------------------------------------------------------------------------------
-
-Added 2016/01/02:
-
-1. Driver now compatible with Windows 8, 8.1, 10. And both USB stacks supported:
-USB2.0 (USBPORT.SYS) and USB3.0 (USBXHCI.SYS)
-
--------------------------------------------------------------------------------
-
-Added 2015/04/06:
-
-1. Much of fixing and enhancement in Setup:
-  - "Restart" button now really :) works under x64; 
-  - USB HID mouse detected in multifunctional devices;
-  - installed filter can be undoned on nonstarting devices
-    (unsigned driver at x64...) - with unchecked "Mice Only";
-  - add parent device column.
-
--------------------------------------------------------------------------------
-
-Added 2009/02/11:
-
-1. Driver (patcher of USBPORT.SYS) works in Windows 7 x64 now.
-
--------------------------------------------------------------------------------
-
-Added 2009/02/03:
-
-1. To load driver under Vista x64 SP1 you can use "Test Mode" method.
-See DSEO program:
-http://www.ngohq.com/home.php?page=dseo
-
--------------------------------------------------------------------------------
-
-Added 2008/04/22:
-
-1. Setup now aware of Windows x64. Don't forget - under Windows Vista 64 bit
-driver will load only with disabled driver signature enforcement.
-
--------------------------------------------------------------------------------
-
-Added 2008/04/19:
-
-1. Windows Vista 64 bit checked and work (with disabled driver 
-signature enforcement).
-
--------------------------------------------------------------------------------
-
-Added 2007/05/16:
-
-1. Windows Vista 32 bit checked and work. In principle, version for XP x64 
-may work under Vista 64 bit, however AFAIK there is required 
-digitally signed driver...
-2. Documentation rewritten.
-3. Patched USBPORT.SYS move into separate archive.
-
---------------------------------------------------------------------------------
-
-Added 2006/09/30:
-
-1. Drivers for 98/ME and 2000 shrink to fit in one page.
-2. DRIVER folder and HIDUSBF.INF reordered.
-
---------------------------------------------------------------------------------
-
-Added 2006/01/12:
-
-1. Below-mentioned development is executed for XP x64.
-Thank Dark_Cloud once again for recurrent testing.
-
---------------------------------------------------------------------------------
-
-Added 2005/12/26:
-
-1. Driver was enhanced - for its installation under XP is NOT 
-required to install corrected USBPORT.SYS. However, if there is observed
-some anomalies - you may go back to old working sequence
-(corrected USBPORT.SYS + driver in the folder DRIVER\STD).
-Thank Alan 'Strider' Kivlin for the idea of patching the code 
-of USBPORT.SYS on the fly.
-Thank Root for valuable link for implementation.
-The same development for Windows XP x64 is still not done - there is a
-difficulties with testing.
-
---------------------------------------------------------------------------------
-
-Added 2005/08/08:
-
-1. Translation was executed into English.
-Job was done by TimFortress (email: mofey@front.ru) 2005/07/22
-(*) in text above is translator additions.
-
-2. In case of HIDUSBF service wasn't installed under Win x64 through Setup.EXE
-(button "Install Service") you may try to do this by OS standard possibility:
-mouse right button click on HIDUSBF.INF -> Install
-
-3. There was added possibility to uninstall HIDUSBF service and file:
-mouse right button click on HIDUSBFU.INF -> Install
-
---------------------------------------------------------------------------------
-
-Added 2005/05/31:
-Written documentation (in Russian).
-
---------------------------------------------------------------------------------
-
-Added 2005/04/10:
-Developed driver for Windows XP x64. Tested by Dark_Cloud.
-
---------------------------------------------------------------------------------
-
-Added 2005/01/19:
-Written GUI installer - SETUP.EXE
-
---------------------------------------------------------------------------------
-
-2004/12/28:
-Initial version, presented in article on overclockers.ru
-
---------------------------------------------------------------------------------
+Changing USB polling rates is at your own risk.
