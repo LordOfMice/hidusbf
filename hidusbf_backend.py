@@ -325,14 +325,74 @@ def set_filter(dn, rate_hz):
     _set_multi_sz(dn, CM_DRP_LOWERFILTERS, others + [SERVICE])
 
 
+_k32 = ctypes.WinDLL("kernel32", use_last_error=True)
+_k32.CreateFileW.restype = wt.HANDLE
+_k32.CreateFileW.argtypes = [wt.LPCWSTR, wt.DWORD, wt.DWORD, ctypes.c_void_p, wt.DWORD, wt.DWORD, wt.HANDLE]
+_k32.DeviceIoControl.argtypes = [wt.HANDLE, wt.DWORD, ctypes.c_void_p, wt.DWORD, ctypes.c_void_p, wt.DWORD,
+                                 ctypes.POINTER(wt.DWORD), ctypes.c_void_p]
+_k32.CloseHandle.argtypes = [wt.HANDLE]
+cm_iface_size = _cm.CM_Get_Device_Interface_List_SizeW
+cm_iface_size.argtypes = [ctypes.POINTER(wt.ULONG), ctypes.c_void_p, wt.LPCWSTR, wt.ULONG]
+cm_iface_list = _cm.CM_Get_Device_Interface_ListW
+cm_iface_list.argtypes = [ctypes.c_void_p, wt.LPCWSTR, ctypes.c_void_p, wt.ULONG, wt.ULONG]
+GUID_DEVINTERFACE_USB_HUB = uuid.UUID("f18a0e88-c30c-11d0-8815-00a0c906bed8").bytes_le
+DEVPKEY_Device_Address = _propkey("a45c254e-df1c-4efd-8020-67d146a850e0", 30)
+IOCTL_USB_HUB_CYCLE_PORT = 0x220444
+INVALID_HANDLE = wt.HANDLE(-1).value
+
+
+def _usb_device_node(instance_id):
+    """The devnode plugged into a hub port (the composite parent for an interface node)."""
+    dn = locate(instance_id)
+    parent = _relative(dn, _cm.CM_Get_Parent)
+    if parent and (_reg_prop(parent, CM_DRP_SERVICE) or "").lower() == "usbccgp":
+        dn, parent = parent, _relative(parent, _cm.CM_Get_Parent)
+    return dn, parent
+
+
+def cycle_port(instance_id):
+    """
+    Power-cycles the device's USB port -- the software equivalent of unplugging and
+    replugging. Unlike a normal restart, apps (XboxService, GameInput...) can't veto it.
+    """
+    dn, hub = _usb_device_node(instance_id)
+    typ, size = wt.ULONG(), wt.ULONG(4)
+    buf = ctypes.create_string_buffer(4)
+    key = DEVPKEY_Device_Address
+    if _cm.CM_Get_DevNode_PropertyW(dn, ctypes.byref(key), ctypes.byref(typ), buf, ctypes.byref(size), 0):
+        raise CMError("could not read the device's USB port number")
+    port = int.from_bytes(buf.raw, "little")
+    hub_id = _device_id(hub)
+    guid = (ctypes.c_ubyte * 16).from_buffer_copy(GUID_DEVINTERFACE_USB_HUB)
+    n = wt.ULONG()
+    _check(cm_iface_size(ctypes.byref(n), guid, hub_id, 0), "hub interface size")
+    lb = ctypes.create_unicode_buffer(n.value + 1)
+    _check(cm_iface_list(guid, hub_id, lb, n.value, 0), "hub interface")
+    h = _k32.CreateFileW(lb.value, 0xC0000000, 3, None, 3, 0, None)  # read/write, shared
+    if h in (None, INVALID_HANDLE):
+        raise ctypes.WinError(ctypes.get_last_error())
+    try:
+        params = (ctypes.c_ulong * 2)(port, 0)  # USB_CYCLE_PORT_PARAMS {ConnectionIndex, StatusReturned}
+        ret = wt.DWORD()
+        if not _k32.DeviceIoControl(h, IOCTL_USB_HUB_CYCLE_PORT, params, 8, params, 8, ctypes.byref(ret), None):
+            raise ctypes.WinError(ctypes.get_last_error())
+    finally:
+        _k32.CloseHandle(h)
+
+
 def restart_device(instance_id):
-    """Returns (ok, needs_reboot, message)."""
+    """Returns (ok, needs_reboot, message). Tries a port power-cycle first, then pnputil."""
+    try:
+        cycle_port(instance_id)
+        return True, False, "USB port power-cycled"
+    except OSError as e:
+        cycle_err = str(e)
     try:
         p = subprocess.run(["pnputil", "/restart-device", instance_id], capture_output=True,
                            text=True, creationflags=CREATE_NO_WINDOW, timeout=60)
     except (OSError, subprocess.TimeoutExpired) as e:
         return False, False, str(e)
-    out = (p.stdout + p.stderr).strip()
+    out = (p.stdout + p.stderr).strip() + f"\n(port cycle failed: {cycle_err})"
     if p.returncode == 3010 or "reboot" in out.lower():
         return True, True, out
     return p.returncode == 0, False, out
@@ -420,6 +480,9 @@ def memory_integrity_on():
         return False
 
 
+PENDING_DELETE_MSG = ("Windows is still finishing removing the previous driver install. "
+                      "Restart the PC, then click Install driver again.")
+
 LOAD_ERRORS = {
     577: "Windows rejected the driver signature (Secure Boot / signature policy).",
     193: "Memory Integrity is blocking the patching driver - use the Standard driver.",
@@ -442,13 +505,17 @@ def install_service(variant):
         if code != 0:
             return False, f"Could not create the driver service:\n{out.strip()}"
     else:
-        _sc("config", SERVICE, "start=", "demand", "binPath=", r"System32\drivers\hidusbf.sys")
+        code, out = _sc("config", SERVICE, "start=", "demand", "binPath=", r"System32\drivers\hidusbf.sys")
+        if "1072" in out:  # ERROR_SERVICE_MARKED_FOR_DELETE
+            return False, PENDING_DELETE_MSG
 
     # test-load the driver, like Setup.exe does
     code, out = _sc("start", SERVICE)
     m = re.search(r"FAILED (\d+)", out)
     if m and int(m.group(1)) != 1056:  # 1056 = already running
         err = int(m.group(1))
+        if err in (1058, 1072) and service_state() != "disabled":
+            return False, PENDING_DELETE_MSG
         return False, f"Driver installed, but Windows won't load it (error {err}).\n" + \
             LOAD_ERRORS.get(err, out.strip())
     return True, "Driver installed and loads correctly."
@@ -467,7 +534,8 @@ def uninstall_service():
         file_msg = ""
     except OSError:
         file_msg = "\nThe driver file is still in use and will be gone after a reboot."
-    return f"Removed the filter from {len(touched)} device(s) and uninstalled the driver.{file_msg}"
+    return (f"Removed the filter from {len(touched)} device(s) and uninstalled the driver.{file_msg}\n"
+            "Restart the PC before installing the driver again.")
 
 
 def is_admin():

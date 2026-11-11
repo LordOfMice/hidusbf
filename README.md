@@ -22,7 +22,8 @@ Minimizing the window, or clicking **Minimize to tray**, hides it in the system 
 
 - The Live Test tab reads controllers through XInput: Xbox controllers, and anything that shows up as one (Steam Input, DS4Windows and so on).
 - If the rate doesn't change, tick **Apply to the whole composite device**, or unplug and replug the controller.
-- Some controllers can't go above their built-in rate. That's a hardware limit.
+- **Stuck at the same rate?** Pick 125 Hz and test again. If the rate drops, the driver works and the controller has a fixed internal rate that no software can raise. For example, the PowerA wired Xbox Series controller (20D6:2035) tops out at 250 Hz: setting 62 Hz measured 62.5 Hz, but 1000 Hz still measured 250 Hz.
+- After **Remove all**, restart the PC before installing the driver again.
 
 ## How it works
 
@@ -32,7 +33,7 @@ The app does the same things as hidusbf's own `Setup.exe`:
 |---|---|
 | Install driver | Copies `hidusbf.sys` to `System32\drivers` and creates the `hidusbf` kernel service |
 | Apply | Adds `hidusbf` to the device's **LowerFilters** and writes **bInterval** (1 = 1000 Hz, 2 = 500, 4 = 250, 8 = 125) to the device's driver registry key |
-| Restart | `pnputil /restart-device` |
+| Restart | Power-cycles the USB port, like a replug, which apps like XBOX Input Service can't block. Falls back to `pnputil /restart-device` |
 
 ## Building from source
 

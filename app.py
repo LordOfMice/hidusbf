@@ -107,7 +107,7 @@ class RateTab(tk.Frame):
         cols = ("rate", "id")
         self.tree = ttk.Treeview(card2, columns=cols, height=4, selectmode="browse")
         self.tree.heading("#0", text="Device")
-        self.tree.heading("rate", text="Polling rate")
+        self.tree.heading("rate", text="Set to")
         self.tree.heading("id", text="VID:PID")
         self.tree.column("#0", width=430)
         self.tree.column("rate", width=170, anchor="center")
@@ -145,8 +145,14 @@ class RateTab(tk.Frame):
 
         tips = tk.Frame(self, bg=BG, padx=4)
         tips.pack(fill="x", padx=16, pady=(0, 10))
-        tk.Label(tips, text="Tip: run the polling test on the Live Test tab before and after, to see the "
-                            "difference.", bg=BG, fg=MUTED, font=("Segoe UI", 9)).pack(side="left")
+        tip_txt = tk.Frame(tips, bg=BG)
+        tip_txt.pack(side="left", fill="x", expand=True)
+        tk.Label(tip_txt, text="Tip: run the polling test on the Live Test tab before and after, to see the "
+                               "difference.", bg=BG, fg=MUTED, font=("Segoe UI", 9)).pack(anchor="w")
+        tk.Label(tip_txt, text="Stuck at the same rate? Pick 125 Hz and test again. If that lowers it, the driver "
+                               "works and your controller has a fixed internal rate (often 250 Hz) that no "
+                               "software can raise.", bg=BG, fg=MUTED, font=("Segoe UI", 9),
+                 wraplength=int(760 * app.S), justify="left").pack(anchor="w", pady=(2, 0))
         ttk.Button(tips, text="Open Live Test  →", command=lambda: master.select(1)).pack(side="right")
 
         if not hb.is_admin():
@@ -186,6 +192,7 @@ class RateTab(tk.Frame):
         threading.Thread(target=wrapper, daemon=True).start()
 
     def _variant_changed(self, _=None):
+        self._variant_touched = True
         v = list(hb.VARIANTS)[self.variant_box.current()]
         self.variant.set(v)
         self.variant_hint.config(text=hb.VARIANTS[v][1])
@@ -199,6 +206,9 @@ class RateTab(tk.Frame):
         def done(res):
             state, variant, hvci = res
             self.hvci = hvci
+            if variant in hb.VARIANTS and not getattr(self, "_variant_touched", False):
+                self.variant.set(variant)
+                self.variant_box.current(list(hb.VARIANTS).index(variant))
             if state == "missing" or variant is None:
                 self.driver_lbl.config(text="Not installed yet - click Install driver.", fg=WARN)
                 self.install_btn.config(text="Install driver")
@@ -256,7 +266,7 @@ class RateTab(tk.Frame):
             if not self.show_all.get() and not d.is_controller:
                 continue
             if has:
-                rtxt = f"{rate} Hz (boosted)" if rate else "Filter on (custom)"
+                rtxt = f"{rate} Hz" if rate else "Custom"
             else:
                 rtxt = "Default"
             name = d.name
@@ -326,7 +336,7 @@ class RateTab(tk.Frame):
                 self.say(f"Done - {d.name} is {what}. Run the test on the Live Test tab to confirm "
                          "(unplug and replug if it looks unchanged).", GOOD)
             elif ok:
-                self.say(f"Saved ({what}). Windows needs a reboot - or unplug and replug the controller.", WARN)
+                self.say(f"Saved ({what}). Unplug and replug the controller (or reboot) to apply.", WARN)
             else:
                 self.say(f"Saved ({what}), but the device couldn't be restarted automatically. "
                          "Unplug and replug the controller to apply.", WARN)
@@ -632,6 +642,9 @@ class LiveTab(tk.Frame):
             text=f"Typical: {r['median_hz']:.0f} Hz     Average: {r['avg_hz']:.0f} Hz     "
                  f"Peak: {r['peak_hz']:.0f} Hz     ({r['packets']} packets)",
             fg=TEXT)
+        if self.last_result is not None and self.prev_lbl.cget("text").endswith(f" {std} Hz"):
+            self.prev_lbl.config(text=self.prev_lbl.cget("text") + "   -  no change? See 'Stuck at the same "
+                                      "rate?' on the Polling Rate tab.")
         self.after(4000, lambda: setattr(self, "_has_result", False))
 
 
